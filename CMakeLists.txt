@@ -78,7 +78,7 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(fmt)
 
-target_link_libraries(TrajoptLib PRIVATE fmt)
+target_link_libraries(TrajoptLib PUBLIC fmt)
 
 set(OPTIMIZER_BACKEND "casadi" CACHE STRING "Optimizer backend")
 set_property(CACHE OPTIMIZER_BACKEND PROPERTY STRINGS casadi sleipnir)
@@ -226,5 +226,6 @@ if(WITH_EMBIND)
     message(SEND_ERROR "Cannot build embind without the Emscripten compiler")
   endif()
   add_executable(TrajoptLibEmbind emscripten/TrajoptLibEmbind.cpp)
-  target_link_libraries(TrajoptLibEmbind embind)
+  trajoptlib_compiler_flags(TrajoptLibEmbind)
+  target_link_libraries(TrajoptLibEmbind PRIVATE TrajoptLib embind)
 endif()
