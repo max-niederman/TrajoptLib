@@ -228,8 +228,7 @@ if(WITH_EMBIND)
   add_executable(TrajoptLibEmbind emscripten/TrajoptLibEmbind.cpp)
   trajoptlib_compiler_flags(TrajoptLibEmbind)
   target_link_libraries(TrajoptLibEmbind PRIVATE TrajoptLib embind)
-  target_link_options(TrajoptLibEmbind PRIVATE "-s ENVIRONMENT=web" "-s SINGLE_FILE=1" "-s MODULARIZE" "-s 'EXPORT_NAME=TrajoptLib'")
-  # install(TARGETS TrajoptLibEmbind)
+  set_target_properties(TrajoptLibEmbind PROPERTIES LINK_FLAGS "-s ENVIRONMENT=web -s SINGLE_FILE=1 -s MODULARIZE -s 'EXPORT_NAME=TrajoptLib'")
   install(FILES
         "$<TARGET_FILE_DIR:TrajoptLibEmbind>/TrajoptLibEmbind.js"
         "$<TARGET_FILE_DIR:TrajoptLibEmbind>/TrajoptLibEmbind.wasm"
