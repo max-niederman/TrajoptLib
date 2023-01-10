@@ -1,7 +1,10 @@
-#include <emscripten/bind.h>
-#include <path/HolonomicPath.h>
+// Copyright (c) TrajoptLib contributors
+
 #include <drivetrain/SwerveDrivetrain.h>
 #include <drivetrain/SwerveModule.h>
+#include <emscripten/bind.h>
+#include <path/HolonomicPath.h>
+
 #include <OptimalTrajectoryGenerator.h>
 
 using namespace emscripten;
