@@ -11,21 +11,21 @@ using namespace emscripten;
 using namespace trajopt;
 
 double add(double a, double b) {
-    return a + b;
+  return a + b;
 }
 
 std::string exclaim(std::string message) {
-    return message + "!";
+  return message + "!";
 }
 
 void opticall() {
-    SwerveDrivetrain swerveDrivetrain(45, 6,
-                                      {SwerveModule(+0.6, +0.6, 0.04, 70, 2),
-                                       SwerveModule(+0.6, -0.6, 0.04, 70, 2),
-                                       SwerveModule(-0.6, +0.6, 0.04, 70, 2),
-                                       SwerveModule(-0.6, -0.6, 0.04, 70, 2)});
-    Obstacle bumpers(0, {{+0.5, +0.5}, {-0.5, +0.5}, {-0.5, -0.5}, {+0.5, -0.5}});
-    HolonomicPath holonomicPath(HolonomicPath(
+  SwerveDrivetrain swerveDrivetrain(45, 6,
+                                    {SwerveModule(+0.6, +0.6, 0.04, 70, 2),
+                                     SwerveModule(+0.6, -0.6, 0.04, 70, 2),
+                                     SwerveModule(-0.6, +0.6, 0.04, 70, 2),
+                                     SwerveModule(-0.6, -0.6, 0.04, 70, 2)});
+  Obstacle bumpers(0, {{+0.5, +0.5}, {-0.5, +0.5}, {-0.5, -0.5}, {+0.5, -0.5}});
+  HolonomicPath holonomicPath(HolonomicPath(
       {HolonomicWaypoint({TranslationConstraint(RectangularSet2d(0, 0)),
                           HeadingConstraint(0)},
                          {VelocityConstraint(RectangularSet2d(0, 0)),
@@ -37,14 +37,13 @@ void opticall() {
                           AngularVelocityConstraint(0)},
                          {}, {}, 10, {InitialGuessPoint(4, 0, 0.0)})},
       bumpers));
-    // SOLVE
-    SwerveSolution solution =
-        OptimalTrajectoryGenerator::Generate(swerveDrivetrain, holonomicPath);
-
+  // SOLVE
+  SwerveSolution solution =
+      OptimalTrajectoryGenerator::Generate(swerveDrivetrain, holonomicPath);
 }
 
 EMSCRIPTEN_BINDINGS(my_module) {
-    function("add", &add);
-    function("exclaim", &exclaim);
-    function("opticall", &opticall);
+  function("add", &add);
+  function("exclaim", &exclaim);
+  function("opticall", &opticall);
 }
