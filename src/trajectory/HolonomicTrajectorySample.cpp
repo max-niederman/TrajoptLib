@@ -4,11 +4,13 @@
 
 namespace trajopt {
 
-// HolonomicTrajectorySample::HolonomicTrajectorySample(double timestamp, double x,
-//                                                      double y, double heading,
-//                                                      double velocityX,
-//                                                      double velocityY,
-//                                                      double angularVelocity)
+// HolonomicTrajectorySample::HolonomicTrajectorySample(double timestamp, double
+// x,
+//                                                      double y, double
+//                                                      heading, double
+//                                                      velocityX, double
+//                                                      velocityY, double
+//                                                      angularVelocity)
 //     : timestamp(timestamp),
 //       x(x),
 //       y(y),

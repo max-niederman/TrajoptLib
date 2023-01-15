@@ -26,7 +26,8 @@ class TRAJOPT_DLLEXPORT HolonomicTrajectory {
   //  *
   //  * @param samples The samples.
   //  */
-  // explicit HolonomicTrajectory(std::vector<HolonomicTrajectorySample> samples);
+  // explicit HolonomicTrajectory(std::vector<HolonomicTrajectorySample>
+  // samples);
 
   /**
    * Construct a HolonomicTrajectory from a solution.

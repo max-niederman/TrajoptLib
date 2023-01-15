@@ -1,13 +1,13 @@
 // Copyright (c) TrajoptLib contributors
 
-#include <vector>
-
 #include <drivetrain/SwerveDrivetrain.h>
 #include <drivetrain/SwerveModule.h>
 #include <emscripten/bind.h>
 #include <path/HolonomicPath.h>
 #include <trajectory/HolonomicTrajectory.h>
 #include <trajectory/HolonomicTrajectorySample.h>
+
+#include <vector>
 
 #include <OptimalTrajectoryGenerator.h>
 
@@ -52,14 +52,14 @@ EMSCRIPTEN_BINDINGS(my_module) {
   function("exclaim", &exclaim);
   function("opticall", &opticall);
   value_object<HolonomicTrajectorySample>("HolonomicTrajectorySample")
-    .field("timestamp", &HolonomicTrajectorySample::timestamp)
-    .field("x", &HolonomicTrajectorySample::x)
-    .field("y", &HolonomicTrajectorySample::y)
-    .field("heading", &HolonomicTrajectorySample::heading)
-    .field("velocityX", &HolonomicTrajectorySample::velocityX)
-    .field("velocityY", &HolonomicTrajectorySample::velocityY)
-    .field("angularVelocity", &HolonomicTrajectorySample::angularVelocity);
+      .field("timestamp", &HolonomicTrajectorySample::timestamp)
+      .field("x", &HolonomicTrajectorySample::x)
+      .field("y", &HolonomicTrajectorySample::y)
+      .field("heading", &HolonomicTrajectorySample::heading)
+      .field("velocityX", &HolonomicTrajectorySample::velocityX)
+      .field("velocityY", &HolonomicTrajectorySample::velocityY)
+      .field("angularVelocity", &HolonomicTrajectorySample::angularVelocity);
   value_object<HolonomicTrajectory>("HolonomicTrajectory")
-    .field("samples", &HolonomicTrajectory::samples);
+      .field("samples", &HolonomicTrajectory::samples);
   register_vector<HolonomicTrajectorySample>("HolonomicTrajectorySamples");
 }
