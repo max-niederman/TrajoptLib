@@ -133,5 +133,5 @@ int main() {
   SwerveSolution solution =
       OptimalTrajectoryGenerator::Generate(swerveDrivetrain, holonomicPath);
   fmt::print("{}\n", solution);
-  fmt::print("{}\n", HolonomicTrajectory(solution));
+  fmt::print("{}\n", HolonomicTrajectory::FromSolution(solution));
 }

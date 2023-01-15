@@ -45,9 +45,9 @@ class TRAJOPT_DLLEXPORT HolonomicTrajectorySample {
    * @param velocityY The velocity's y component.
    * @param angularVelocity The angular velocity.
    */
-  HolonomicTrajectorySample(double timestamp, double x, double y,
-                            double heading, double velocityX, double velocityY,
-                            double angularVelocity);
+  // HolonomicTrajectorySample(double timestamp, double x, double y,
+  //                           double heading, double velocityX, double velocityY,
+  //                           double angularVelocity);
 };
 
 }  // namespace trajopt

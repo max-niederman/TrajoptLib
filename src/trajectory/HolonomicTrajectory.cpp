@@ -8,19 +8,22 @@
 
 namespace trajopt {
 
-HolonomicTrajectory::HolonomicTrajectory(
-    std::vector<HolonomicTrajectorySample> samples)
-    : samples(std::move(samples)) {}
+// HolonomicTrajectory::HolonomicTrajectory(
+//     std::vector<HolonomicTrajectorySample> samples)
+//     : samples(std::move(samples)) {}
 
-HolonomicTrajectory::HolonomicTrajectory(const HolonomicSolution& solution) {
+HolonomicTrajectory HolonomicTrajectory::FromSolution(const HolonomicSolution& solution) {
+  std::vector<HolonomicTrajectorySample> samples;
   double ts = 0.0;
   for (size_t samp = 0; samp < solution.x.size(); samp++) {
     if (samp != 0) {
       ts += solution.dt[samp - 1];
     }
-    samples.emplace_back(ts, solution.x[samp], solution.y[samp],
+    samples.emplace_back(HolonomicTrajectorySample{
+                         ts, solution.x[samp], solution.y[samp],
                          solution.theta[samp], solution.vx[samp],
-                         solution.vy[samp], solution.omega[samp]);
+                         solution.vy[samp], solution.omega[samp]});
   }
+  return {samples};
 }
 }  // namespace trajopt
