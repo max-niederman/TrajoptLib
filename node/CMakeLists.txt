@@ -23,7 +23,20 @@ target_link_libraries(${PROJECT_NAME} ${CMAKE_JS_LIB})
 
 set(OPTIMIZER_BACKEND casadi)
 set(CMAKE_APPLE_SILICON_PROCESSOR arm64)
-add_subdirectory(${CMAKE_CURRENT_SOURCE_DIR}/.. ${CMAKE_CURRENT_SOURCE_DIR}/../build EXCLUDE_FROM_ALL)
+
+include(FetchContent)
+
+FetchContent_Declare(
+  TrajoptLib
+  GIT_REPOSITORY https://github.com/SleipnirGroup/TrajoptLib.git
+  GIT_TAG 431b82ffb82e13506fd4320f4e2c3117ef505838
+)
+
+FetchContent_GetProperties(TrajoptLib)
+if(NOT TrajoptLib_POPULATED)
+  FetchContent_Populate(TrajoptLib)
+  add_subdirectory(${trajoptlib_SOURCE_DIR} ${trajoptlib_BINARY_DIR} EXCLUDE_FROM_ALL)
+endif()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE TrajoptLib)
 
