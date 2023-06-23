@@ -1,6 +1,6 @@
 {
   "name": "@sleipnirgroup/trajoptlib",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Node bindings to TrajoptLib, a library for generating time-optimal trajectories for FRC",
   "repository": "https://github.com/SleipnirGroup/TrajoptLib",
   "homepage": "https://github.com/SleipnirGroup/TrajoptLib#readme",
