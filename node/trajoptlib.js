@@ -43,4 +43,4 @@ path.poseWpt(1, 5.0, 0.0, 0.0);
 path.wptZeroVelocity(0);
 path.wptZeroVelocity(1);
 
-console.log(path.generate()); // 'world'
+console.log(path.generate());
