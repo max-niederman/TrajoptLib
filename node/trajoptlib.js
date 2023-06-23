@@ -43,4 +43,11 @@ path.poseWpt(1, 5.0, 0.0, 0.0);
 path.wptZeroVelocity(0);
 path.wptZeroVelocity(1);
 
-console.log(path.generate());
+path.generate().then((result) => {
+  console.log(result);
+});
+path.generate().then((result) => {
+  console.log(result);
+});
+
+console.log("done");

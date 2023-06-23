@@ -1,6 +1,8 @@
 #include "SwervePathBuilderWrap.h"
 #include "TrajectoryGenerationException.h"
 
+#include "GenerationWorker.h"
+
 #include <cmath>
 
 #include <OptimalTrajectoryGenerator.h>
@@ -90,29 +92,10 @@ Napi::Value SwervePathBuilderWrap::Generate(const Napi::CallbackInfo &info) {
     Napi::TypeError::New(info.Env(), "SwervePathBuilder.generate() accepts exactly one number parameter").ThrowAsJavaScriptException();
     return info.Env().Undefined();
   }
-  std::unique_ptr<trajopt::SwerveSolution> solution = nullptr;
-  try {
-    solution = std::make_unique<trajopt::SwerveSolution>(
-        trajopt::OptimalTrajectoryGenerator::Generate(_path));
-  } catch (const trajopt::TrajectoryGenerationException& e) {
-    Napi::Error::New(info.Env(), e.what()).ThrowAsJavaScriptException();
-    return info.Env().Undefined();
-  }
-  trajopt::HolonomicTrajectory trajectory{*solution};
-  auto napiSamples = Napi::Array::New(info.Env());
-  size_t sampCnt = trajectory.samples.size();
-  for (size_t idx = 0; idx < sampCnt; ++idx) {
-    Napi::Object napiSample = Napi::Object::New(info.Env());
-    napiSample.Set("timestamp", trajectory.samples.at(idx).timestamp);
-    napiSample.Set("x", trajectory.samples.at(idx).x);
-    napiSample.Set("y", trajectory.samples.at(idx).y);
-    napiSample.Set("heading", trajectory.samples.at(idx).heading);
-    napiSample.Set("velocityX", trajectory.samples.at(idx).velocityX);
-    napiSample.Set("velocityY", trajectory.samples.at(idx).velocityY);
-    napiSample.Set("angularVelocity", trajectory.samples.at(idx).angularVelocity);
-    napiSamples.Set(idx, napiSample);
-  }
-  return napiSamples;
+  GenerationWorker* worker = new GenerationWorker(info.Env(), _path);
+  auto promise = worker->GetPromise();
+  worker->Queue();
+  return promise;
 }
 
 Napi::Function SwervePathBuilderWrap::GetClass(const Napi::Env env) {
