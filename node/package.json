@@ -22,6 +22,7 @@
     "install": "cmake-js compile"
   },
   "files": [
-    "/build/Release"
+    "src",
+    "CMakeLists.txt"
   ]
 }
