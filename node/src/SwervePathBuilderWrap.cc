@@ -1,4 +1,5 @@
 #include "SwervePathBuilderWrap.h"
+#include "TrajectoryGenerationException.h"
 
 #include <cmath>
 
@@ -89,8 +90,15 @@ Napi::Value SwervePathBuilderWrap::Generate(const Napi::CallbackInfo &info) {
     Napi::TypeError::New(info.Env(), "SwervePathBuilder.generate() accepts exactly one number parameter").ThrowAsJavaScriptException();
     return info.Env().Undefined();
   }
-  trajopt::SwerveSolution solution = trajopt::OptimalTrajectoryGenerator::Generate(_path);
-  trajopt::HolonomicTrajectory trajectory{solution};
+  std::unique_ptr<trajopt::SwerveSolution> solution = nullptr;
+  try {
+    solution = std::make_unique<trajopt::SwerveSolution>(
+        trajopt::OptimalTrajectoryGenerator::Generate(_path));
+  } catch (const trajopt::TrajectoryGenerationException& e) {
+    Napi::Error::New(info.Env(), e.what()).ThrowAsJavaScriptException();
+    return info.Env().Undefined();
+  }
+  trajopt::HolonomicTrajectory trajectory{*solution};
   auto napiSamples = Napi::Array::New(info.Env());
   size_t sampCnt = trajectory.samples.size();
   for (size_t idx = 0; idx < sampCnt; ++idx) {
