@@ -209,6 +209,7 @@ foreach(example ${EXAMPLES})
                              PRIVATE
                              ${CMAKE_CURRENT_SOURCE_DIR}/examples/${example}/include)
   target_link_libraries(${example} PRIVATE TrajoptLib)
+  install(TARGETS ${example} DESTINATION "bin")
 
   # Build example test if files exist for it
   if (BUILD_TESTING AND EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/examples/${example}/test)
