@@ -53,7 +53,7 @@ macro(fetch_casadi)
   elseif (UNIX)
     if (${CMAKE_SYSTEM_PROCESSOR} MATCHES "ARM64")
       message(STATUS "Building for Linux arm64")
-      set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_RPATH};$ORIGIN/../lib;$ORIGIN")
+      set(CMAKE_INSTALL_RPATH "${CMAKE_INSTALL_RPATH};$$ORIGIN/../lib;$$ORIGIN")
       set(CASADI_URL https://github.com/casadi/casadi/releases/download/3.6.3/casadi-3.6.3-linux-aarch64-py311.zip)
       set(CASADI_INSTALL_LIBS
         ${CASADI_LIBDIR}/libcasadi.so
