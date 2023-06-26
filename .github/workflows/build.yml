@@ -66,6 +66,16 @@ jobs:
       - name: build
         run: cmake --build build --config RelWithDebInfo --parallel $(nproc)
 
+      - name: test execution (windows)
+        if: matrix.os == 'windows-2022'
+        working-directory: build
+        run: .\Swerve.exe
+
+      - name: test execution (macOS and Linux)
+        if: matrix.os != 'windows-2022'
+        working-directory: build
+        run: ./Swerve
+
       - name: install
         run: cmake --install build --config RelWithDebInfo --prefix pkg
 
