@@ -39,7 +39,6 @@ std::pair<Expr, Expr> RotateVector(const Expr& x, const Expr& y,
 template <ExprSys Expr>
 std::pair<Expr, Expr> RotateConstantVector(double x, double y,
                                            const Expr& theta) {
-  std::pair<Expr, Expr> position{0.0, 0.0};
   if (x == 0.0 && y == 0.0) {
     return {0.0, 0.0};
   } else {
