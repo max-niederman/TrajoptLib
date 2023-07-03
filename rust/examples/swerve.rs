@@ -39,10 +39,11 @@ fn main() {
   let mut path = SwervePathBuilder::new();
   path.set_drivetrain(&drivetrain);
   path.pose_wpt(0, 0.0, 0.0, 0.0);
-  path.pose_wpt(1, 1.0, 0.0, 0.0);
+  path.pose_wpt(1, 2.0, 0.0, 0.0);
+  path.pose_wpt(2, 3.0, 4.0, 0.0);
   path.wpt_zero_velocity(0);
-  path.wpt_zero_velocity(1);
+  path.wpt_zero_velocity(2);
   path.wpt_zero_angular_velocity(0);
-  path.wpt_zero_angular_velocity(1);
+  path.wpt_zero_angular_velocity(2);
   println!("{:?}", path.generate());
 }
