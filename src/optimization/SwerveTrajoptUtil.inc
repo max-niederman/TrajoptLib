@@ -112,8 +112,6 @@ void ApplyPowerConstraints(Opti& opti, const Expr& theta, const Expr& vx,
                            const std::vector<Expr>& Fx,
                            const std::vector<Expr>& Fy,
                            const SwerveDrivetrain& swerveDrivetrain) {
-  auto [vx_prime, vy_prime] = RotateVector(vx, vy, -theta);
-
   size_t moduleCount = swerveDrivetrain.modules.size();
 
   std::vector<Expr> vx_m;
@@ -122,10 +120,12 @@ void ApplyPowerConstraints(Opti& opti, const Expr& theta, const Expr& vx,
   vy_m.reserve(moduleCount);
 
   for (size_t moduleIdx = 0; moduleIdx < moduleCount; ++moduleIdx) {
-    auto x_m = swerveDrivetrain.modules.at(moduleIdx).x;
-    auto y_m = swerveDrivetrain.modules.at(moduleIdx).y;
-    vx_m.emplace_back(vx_prime - y_m * omega);
-    vy_m.emplace_back(vy_prime + x_m * omega);
+    auto [x_m, y_m] = RotateConstantVector(
+        swerveDrivetrain.modules.at(moduleIdx).x,
+        swerveDrivetrain.modules.at(moduleIdx).y,
+        theta);
+    vx_m.emplace_back(vx - y_m * omega);
+    vy_m.emplace_back(vy + x_m * omega);
   }
 
   for (size_t moduleIdx = 0; moduleIdx < moduleCount; ++moduleIdx) {
