@@ -39,8 +39,15 @@ std::pair<Expr, Expr> RotateVector(const Expr& x, const Expr& y,
 template <ExprSys Expr>
 std::pair<Expr, Expr> RotateConstantVector(double x, double y,
                                            const Expr& theta) {
-  return {x * cos(theta) - y * sin(theta),   // NOLINT
-          x * sin(theta) + y * cos(theta)};  // NOLINT
+  std::pair<Expr, Expr> position{0.0, 0.0};
+  if (x == 0.0 && y == 0.0) {
+    return {0.0, 0.0};
+  } else {
+      double diagonal = std::hypot(x, y);
+      double angle = std::atan2(y, x);
+      return {diagonal * cos(angle + theta),  // NOLINT
+              diagonal * sin(angle + theta)}; // NOLINT
+  }
 }
 
 size_t GetIdx(const std::vector<size_t>& N, size_t wptIdx, size_t sampIdx) {
