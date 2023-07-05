@@ -2,6 +2,8 @@
 
 #include "trajopt/OptimalTrajectoryGenerator.h"
 
+#include <fmt/format.h>
+
 #include "trajopt/path/SwervePathBuilder.h"
 
 #if defined(OPTIMIZER_BACKEND_CASADI)
@@ -24,6 +26,7 @@ SwerveSolution OptimalTrajectoryGenerator::Generate(
   SwerveDiscreteOptimal<_OPTI_BACKEND> problem(path.GetPath(),
                                                path.GetControlIntervalCounts(),
                                                path.CalculateInitialGuess());
+  fmt::print("Optimizing path:\n{}\n", path.GetPath());
   return problem.Generate();
 }
 }  // namespace trajopt
