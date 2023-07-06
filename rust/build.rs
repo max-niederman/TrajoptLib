@@ -1,5 +1,34 @@
 use cmake::Config;
 
+#[cfg(feature = "tauri-sidecar")]
+fn copy_libs(install_dir: &std::path::Path) {
+  use std::fs;
+
+  #[cfg(target_os = "macos")]
+  const LIB_PATTERN: &str = "lib/lib*.dylib";
+
+  #[cfg(target_os = "linux")]
+  const LIB_PATTERN: &str = "lib/lib*.so";
+
+  #[cfg(target_os = "windows")]
+  const LIB_PATTERN: &str = "bin/*.dll";
+
+  let native_lib_search_dir = install_dir.join(LIB_PATTERN);
+
+  let native_lib_out_dir = install_dir.join("tauri-sidecar");
+
+  let target_triple = std::env::var("TARGET").unwrap();
+
+  fs::create_dir_all(&native_lib_out_dir).expect("Unable to create directory for native libraries");
+
+  for entry in glob::glob(native_lib_search_dir.to_str().unwrap()).expect("Failed to find trajoptlib dylibs") {
+    let file = entry.expect("error loading dylib");
+    let output_file = format!("{}/{}-{}",
+        native_lib_out_dir.display(), file.file_name().unwrap().to_str().unwrap(), target_triple);
+    fs::copy(file.clone(), output_file).expect("Error copying dylib");
+  }
+}
+
 fn main() -> miette::Result<()> {
 
   let mut cmake_config = Config::new("..");
@@ -37,5 +66,10 @@ fn main() -> miette::Result<()> {
   println!("cargo:rerun-if-changed=include/trajoptlib.h");
   println!("cargo:rerun-if-changed=src/trajoptlib.cc");
   println!("cargo:rerun-if-changed=src/lib.rs");
+
+
+  #[cfg(feature = "tauri-sidecar")]
+  copy_libs(dst.as_path());
+
   Ok(())
 }
